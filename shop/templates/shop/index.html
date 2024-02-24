@@ -1,0 +1,83 @@
+{% extends 'shop/basic.html' %}
+{% block title %}shop{% endblock %}
+{% block body %}
+{% load static %}
+{%for products,range,nslides in allProds%}
+<div id="carousel{{forloop.counter}}" class="carousel slide" data-ride="carousel" data-interval="false">
+  <ol class="carousel-indicators">
+    <li data-target="#carousel{{forloop.counter}}" data-slide-to="0" class="active"></li>
+    {% for i in range %}
+    <li data-target="
+    #carousel{{forloop.parentloop.counter}}" data-slide-to="{{ i }}"></li>
+    {% endfor %}
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <h3 class="text-light mx-5 my-4">{{products.0.category}} - Recommended for you</h3>
+      <div class="section d-flex w-80  h-full justify-content-center align-items-center row">
+        {% for product in products%}
+        <div class="card col-xs-3 mx-1" style="width: 18rem; height: 25rem">
+          <img class="card-img-top img-fluid h-50" src="/media/{{product.image}}" alt="Card image cap" />
+          <div class="card-body h-55">
+            <h3 class="card-title">{{product.product_name}}</h3>
+            <p class="card-title" style="font-size: 15px;height:62px;overflow-y:hidden;
+                text-overflow: ellipsis;">{{product.desc}}</p>
+            <button id="pr{{product.id}}" class="btn btn-primary cart">Add to cart</button>
+          </div>
+        </div>
+        {% if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last%}
+      </div>
+    </div>
+    <div class="carousel-item ">
+      <h3 class="text-light mx-5 my-4">{{products.0.category}} - Recommended for you</h3>
+      <div class="section d-flex w-90 justify-content-center align-items-center row">
+
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <!-- <a class="carousel-control-prev" href="#carousel{{forloop.counter}}" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon bg-dark"></span>
+  </a>
+  <a class="carousel-control-next" href="#carousel{{forloop.counter}}" role="button" data-slide="next">
+    <span class="carousel-control-next-icon bg-dark"></span>
+  </a> -->
+</div>
+</div>
+
+{%endfor%}
+{%endblock%}
+{%block js %}
+<script>
+  $(document).ready(function () {
+    $("#carousel{{forloop.counter}}").carousel();
+  });
+  // $('#popcart').popover('show')
+  // document.getElementById('popcart').setAttribute('data-content', '<h5>cart</h5>');
+    </script>
+    <script>
+      let cart={}
+      $('.cart').click(function(){
+        idstr = this.id.toString();
+        if(cart[idstr]!=undefined){
+          cart[idstr] = cart[idstr] + 1;
+         }
+         else{
+         cart[idstr] = 1;
+        }
+        console.log(cart);
+        localStorage.setItem('cart',JSON.stringify(cart));
+        print(localStorage.getItem('cart'));
+  });
+   if(localStorage.getItem('cart')==null){
+    cart = {};
+   }
+   else{
+    cart = JSON.parse(localStorage.getItem('cart'));
+    document.getElementById('cartNo').innerHTML = Object.keys(cart).length;
+   }
+
+    </script>
+
+    {%endblock%}
