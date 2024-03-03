@@ -57,7 +57,7 @@ ROOT_URLCONF = "my_awesome_card.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": ['my_awesome_card/templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

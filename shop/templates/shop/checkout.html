@@ -1,0 +1,124 @@
+{%extends 'shop/basic.html'%} {%block title%}Checkout - My Awesome
+Cart{%endblock%} {%block body%}
+<div class="container text-light my-4">
+  <div>
+    <div class="col">
+      <h2>
+        Step 1 - My Awesome Cart Express Checkout - Review Your Cart Items
+      </h2>
+
+      <ul class="list-group text-dark my-4" id="items">
+      </ul>    <div id="bill">
+  </div>
+    </div>
+
+  </div>
+  
+  <div class="col mt-2">
+    <h2>Step 2 - Enter Address & Other Details</h2>
+    <form class="row g-3" method="post" action="/shop/checkout/">
+        {% csrf_token %}
+        <input type="hidden" name="items_json" class="form-control"  id="items_Json">
+      <div class="col-md-6 py-3">
+        <label for="" class="form-label">Full Name</label>
+        <input
+        name="name"
+          type="text"
+          class="form-control"
+          placeholder="Name"
+          id="inputName" required
+        />
+      </div>
+      <div class="col-md-6 py-3">
+        <label for="inputEmail4" class="form-label">Email</label>
+        <input
+        name="email"
+          type="email"
+          class="form-control"
+          placeholder="email"
+          id="inputEmail4" required
+        />
+      </div>
+      <div class="col-12 py-3">
+        <label for="inputAddress" class="form-label">Address1</label>
+        <input
+        name="address1"
+          type="text"
+          class="form-control"
+          id="inputAddress"
+          placeholder="1234 Main St" required
+        />
+      </div>
+      <div class="col-12 py-3">
+        <label for="inputAddress2" class="form-label">Address2</label>
+        <input
+        name="address2"
+          type="text"
+          class="form-control"
+          id="inputAddress2"
+          placeholder="Apartment, studio, or floor" required
+        />
+      </div>
+      <div class="col-md-6 py-3">
+        <label for="inputCity" class="form-label">City</label>
+        <input name="city" type="text" class="form-control" id="inputCity" required/>
+      </div>
+      <div class="col-md-4 py-3">
+        <label for="inputState" class="form-label">State</label>
+        <input name="state" type="text" class="form-control" id="inputState" required>
+        </input>
+      </div>
+      <div class="col-md-2 py-3">
+        <label  class="form-label">Zip</label>
+        <input name="zip" type="number" class="form-control" id="inputZip" required/>
+      </div>
+      <div class="col-12">
+        <label for="inputPhone" class="form-label">Phone</label>
+
+          <input name="phone" class="form-control" type="tel" id="inputPhone" required/>
+        </div>
+      <div class="col-12 py-3">
+        <button type="submit" class="btn btn-primary">Place Order</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div id="thankValue" data-thank="{{ thank }}"></div>
+{%endblock%}
+{% block js %}
+<script>
+    if (localStorage.getItem("cart") == null) {
+        cart = {};
+    } else {
+        cart = JSON.parse(localStorage.getItem("cart"));
+    }
+    console.log(cart);
+
+    x = document.getElementById("items");
+    if (Object.keys(cart).length === 0) {
+      x.innerHTML = `<p class='text-light'> Your cart is empty. Please add some items to your cart before checking out!</p>`;
+    }
+    else{     
+      y = document.getElementById("bill");
+      totalBill = 0;
+    let sum = 0;
+      for (let item in cart) {
+        sum += cart[item][0];
+        totalBill += cart[item][0]*cart[item][2];
+        x.innerHTML +=  `<li class="list-group-item d-flex justify-content-between align-items-center">
+          ${cart[item][1]}
+          <span class="badge bg-primary text-light rounded-pill">${cart[item][0]}</span>
+          </li>`;          
+        }
+        y.innerHTML += `<p class='text-primary'>Total Bill amount: ${totalBill}</p>`;
+        document.getElementById('cartNo').innerHTML = sum;
+        document.getElementById('items_Json').value = JSON.stringify(cart);
+      }
+    // Check the value of 'thank' directly in JavaScript
+    var thankValue = document.getElementById('thankValue').getAttribute('data-thank');
+    if (thankValue === "True") {
+        alert('Thanks for ordering with us. Your order id is {{ id }}. Use it to track your order using our trackers.');
+        localStorage.clear();
+    }
+</script>
+{% endblock %}
