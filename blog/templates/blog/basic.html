@@ -8,6 +8,13 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <script
+      async
+      defer
+      crossorigin="anonymous"
+      src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0"
+      nonce="6ASKstjC"
+    ></script>
+    <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
       crossorigin="anonymous"
@@ -37,10 +44,14 @@
       body .carousel-control-next-icon {
         background-color: blue;
       }
+      .prop {
+        height: 100px;
+        width: 100px;
+      }
     </style>
   </head>
-  <body class="bg-dark">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-light">
       <a class="navbar-brand" href="#">My_Awesome_Cart</a>
       <button
         class="navbar-toggler"
@@ -78,16 +89,10 @@
             <a class="nav-link" href="/shop/contact">Contact Us</a>
           </li>
         </ul>
-        <form
-          class="form-inline my-2 my-lg-0"
-          method="get"
-          action="/shop/search/"
-        >
+        <form class="form-inline my-2 my-lg-0">
           <input
             class="form-control mr-sm-2"
             type="search"
-            name="search"
-            id="search"
             placeholder="Search"
             aria-label="Search"
           />

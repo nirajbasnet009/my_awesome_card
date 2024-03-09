@@ -19,7 +19,9 @@ Cart{%endblock%} {%block body%}
     <form class="row g-3" method="post" action="/shop/checkout/">
         {% csrf_token %}
         <input type="hidden" name="items_json" class="form-control"  id="items_Json">
-      <div class="col-md-6 py-3">
+
+        <input type="hidden" name="total_amt" class="form-control"  id="total_amt">
+        <div class="col-md-6 py-3">
         <label for="" class="form-label">Full Name</label>
         <input
         name="name"
@@ -113,6 +115,7 @@ Cart{%endblock%} {%block body%}
         y.innerHTML += `<p class='text-primary'>Total Bill amount: ${totalBill}</p>`;
         document.getElementById('cartNo').innerHTML = sum;
         document.getElementById('items_Json').value = JSON.stringify(cart);
+        document.getElementById('total_amt').value = totalBill;
       }
     // Check the value of 'thank' directly in JavaScript
     var thankValue = document.getElementById('thankValue').getAttribute('data-thank');
